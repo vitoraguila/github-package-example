@@ -1,5 +1,5 @@
 {
-  "name": "github-package-example",
+  "name": "@vitoraguila/github-package-example",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.cjs",
