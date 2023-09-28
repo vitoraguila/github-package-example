@@ -31,5 +31,3 @@ Understanding the “Set env” and “Patch version” steps in a GitHub Action
 
 
 Thank you for going through this tutorial, and happy coding!
-
-
