@@ -12,9 +12,12 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Set env
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: echo "RELEASE_VERSION=$(echo ${GITHUB_REF#refs/tags/} | sed 's/^v//g; s/[^0-9\.]//g')" >> $GITHUB_ENV
 
       - name: Setup Node
