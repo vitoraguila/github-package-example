@@ -37,7 +37,7 @@ jobs:
           yarn version --new-version ${{env.RELEASE_VERSION}}
 
           git commit package.json -m "Updated package.json version to version released ${{env.RELEASE_VERSION}}"
-          git push publisher HEAD:release/v${{env.RELEASE_VERSION}}
+          git push -u publisher HEAD:release/v${{env.RELEASE_VERSION}}
 
       - name: publish
         run: npm publish
