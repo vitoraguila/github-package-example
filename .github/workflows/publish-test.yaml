@@ -25,14 +25,9 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@vitoraguila'
 
-      - name: Patch package.json version inside the release branch/v***
+      - name: publish
         run: |
           echo "Release version: ${{env.RELEASE_VERSION}}"
-
-          yarn config set version-git-tag false
-          yarn version --new-version ${{env.RELEASE_VERSION}}
-
-      - name: publish
-        run: npm publish
+          yarn publish --new-version ${{env.RELEASE_VERSION}}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
