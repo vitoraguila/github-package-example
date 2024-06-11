@@ -27,17 +27,10 @@ jobs:
 
       - name: Patch package.json version inside the release branch/v***
         run: |
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "github-actions@github.com"
-          git remote add publisher "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-
           echo "Release version: ${{env.RELEASE_VERSION}}"
 
           yarn config set version-git-tag false
           yarn version --new-version ${{env.RELEASE_VERSION}}
-
-          git commit package.json -m "Updated package.json version to version released ${{env.RELEASE_VERSION}}"
-          git push -u publisher HEAD:release/v${{env.RELEASE_VERSION}}
 
       - name: publish
         run: npm publish
