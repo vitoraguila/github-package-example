@@ -25,9 +25,19 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@vitoraguila'
 
-      - name: publish
+      - name: Install and build
+        run: |
+          npm install
+          npm run build:bild:npm
+
+      - name: Set version for release
         run: |
           echo "Release version: ${{env.RELEASE_VERSION}}"
-          yarn publish --new-version ${{env.RELEASE_VERSION}}
+
+          npm config set git-tag-version false
+          npm version ${RELEASE_VERSION}
+
+      - name: publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
