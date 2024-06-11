@@ -1,0 +1,46 @@
+name: Release a NPM Github Package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: 
+      contents: write
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=$(echo ${GITHUB_REF#refs/tags/} | sed 's/^v//g; s/[^0-9\.]//g')" >> $GITHUB_ENV
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '16'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@spring-media'
+      
+      - name: Patch package.json version inside the release branch/v***
+        run: |
+          git branch release/v${{env.RELEASE_VERSION}}
+
+          git config --global user.name ${GITHUB_ACTOR}
+          git config --global user.email "github-actions@github.com"
+          git remote add publisher "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push publisher release/v${{env.RELEASE_VERSION}}
+
+          echo "Release version: ${{env.RELEASE_VERSION}}"
+
+          yarn config set version-git-tag false
+          yarn version --new-version ${{env.RELEASE_VERSION}}
+
+          git commit package.json -m "Updated package.json version to version released ${{env.RELEASE_VERSION}}"
+          git push publisher HEAD:release/v${{env.RELEASE_VERSION}}
+
+      - name: publish
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
