@@ -29,15 +29,15 @@ jobs:
 
       - name: Install and build
         run: |
-          npm install
-          npm run build
+          yarn install
+          yarn build
 
       - name: Set version for release
         run: |
           echo "Release version: ${{env.RELEASE_VERSION}}"
 
-          npm config set git-tag-version false
-          npm version ${RELEASE_VERSION}
+          yarn config set version-git-tag false
+          yarn version --new-version ${{env.RELEASE_VERSION}}
 
       - name: publish
         run: npm publish
