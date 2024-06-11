@@ -25,14 +25,10 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@vitoraguila'
 
-      - name: Create new branch
+      - name: Patch package.json version inside the release branch/v***
         run: |
           git config --global user.name "${{ github.actor }}"
           git config --global user.email "github-actions@github.com"
-          git checkout -b release/v${{ env.RELEASE_VERSION }}     
-
-      - name: Patch package.json version inside the release branch/v***
-        run: |
           git remote add publisher "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
           echo "Release version: ${{env.RELEASE_VERSION}}"
