@@ -17,11 +17,12 @@ jobs:
       - name: Set env
         run: echo "RELEASE_VERSION=$(echo ${GITHUB_REF#refs/tags/} | sed 's/^v//g; s/[^0-9\.]//g')" >> $GITHUB_ENV
 
-      - uses: actions/setup-node@v1
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: 16.x
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@spring-media'
+          scope: '@vitoraguila'
       
       - name: Patch package.json version inside the release branch/v***
         run: |
