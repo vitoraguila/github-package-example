@@ -28,7 +28,7 @@ jobs:
       - name: Install and build
         run: |
           npm install
-          npm run build:bild:npm
+          npm build:bild:npm
 
       - name: Set version for release
         run: |
